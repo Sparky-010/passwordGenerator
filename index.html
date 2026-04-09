@@ -26,7 +26,7 @@
   <div class="w-full justify-items-center content-center text-center mx-auto">
 
     <div class="rounded-[7px] w-[95%] md:w-[35%] p-5 md:p-9 mt-5 text-center content-center shadow shadow-black bg-amber-50" id="welcome">
-      <h1 class="font-semibold text-2xl md:text-3xl border-b-2 w-fit shadow px-0.5 md:px-4 rounded-[7px] mx-auto text-shadow-2xs shadow-black">Password Generator</h1>
+      <h1 class="font-semibold text-2xl md:text-3xl border-b-2 w-fit shadow px-4 md:px-4 rounded-[7px] mx-auto text-shadow-2xs shadow-gray-200">Password Generator</h1>
       <p class="py-1.5 text-transparent max-sm:text-[0.9rem]" id="msg">.</p>
       <!-- pasword value -->
       <div class="flex justify-between shadow shadow-black mb-5 rounded-[10px]">
@@ -40,7 +40,7 @@
           <label for="psw-Legnth" class="text-left">Password Length</label>
           <div class="flex gap-2 items-center">
             <input type="range" name="" id="psw-Legnth" min="6" max="24" value="8">
-            <span class="bg-blue-300 px-1.5 rounded-[5px] shadow" id="length-Value">8</span>
+            <span class="bg-blue-300 px-1.5 rounded-[5px] font-bold shadow shadow-blue-400 " id="length-Value">8</span>
           </div>
         </li>
         <li>
@@ -175,15 +175,18 @@
     }
     // strengthLevel
     function pswStrengthLevel(level) {
-      if (level <= 45) {
+      if (level <= 25) {
+        strengthLevel.innerText = 'Very Weak'
+        progress.style.background = '#fb2c36'
+      }else if (level <= 45) {
         strengthLevel.innerText = 'Weak'
         progress.style.background = '#fb2c36'
       } else if (level > 45 && level < 70) {
         strengthLevel.innerText = 'Medium'
-        progress.style.background = 'Orange'
+        progress.style.background = 'oklch(70.5% 0.213 47.604)'
       } else {
         strengthLevel.innerText = 'Strong'
-        progress.style.background = 'Green'
+        progress.style.background = 'oklch(72.3% 0.219 149.579)'
       }
     }
 
