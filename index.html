@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Password Generator</title>
+  <style>
+    *{
+      transition: all 300ms ease-in-out;
+    }
+    ul li{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      box-shadow: 0 0 2px;
+      padding: 2px 10px;
+      border-radius: 7px;
+
+    }
+    ul li label, ul li input{cursor: pointer;}
+  </style>
+</head>
+<body class="max-sm:text-[1.2rem] bg-blue-200 w-full font-sans">
+  <div class="w-full justify-items-center content-center text-center mx-auto">
+
+    <div class="rounded-[7px] w-[95%] md:w-[35%] p-5 md:p-9 mt-5 text-center content-center shadow shadow-black bg-amber-50" id="welcome">
+      <h1 class="font-semibold text-2xl md:text-3xl border-b-2 w-fit shadow px-0.5 md:px-4 rounded-[7px] mx-auto text-shadow-2xs shadow-black">Password Generator</h1>
+      <p class="py-1.5 text-transparent max-sm:text-[0.9rem]" id="msg">.</p>
+      <!-- pasword value -->
+      <div class="flex justify-between shadow shadow-black mb-5 rounded-[10px]">
+        <input type="text" class="px-4 py-1 rounded-[7px] w-[70%]" id="pswd" value="" title="Generated Password" disabled>
+        <button type="button" class="shadow rounded-[7px] px-2 cursor-pointer bg-gray-200 hover:bg-green-100" id="copy-psw" title="copy Password">📋</button><!--copy password-->
+      </div>
+
+      <!-- options -->
+       <ul class="bg-gray-50 p-2.5 pt-0.5 rounded-[10px] mb-4 shadow shadow-gray-900 w-full">
+        <li>
+          <label for="psw-Legnth" class="text-left">Password Length</label>
+          <div class="flex gap-2 items-center">
+            <input type="range" name="" id="psw-Legnth" min="6" max="24" value="8">
+            <span class="bg-blue-300 px-1.5 rounded-[5px] shadow" id="length-Value">8</span>
+          </div>
+        </li>
+        <li>
+          <label for="upperCase">Include Uppercase</label>
+          <input type="checkbox" name="" id="upperCase" checked>
+        </li>
+        <li>
+          <label for="lowerCase">Include lowercase</label>
+          <input type="checkbox" name="" id="lowerCase" checked>
+        </li>
+        <li>
+          <label for="numbers">Include Numbers</label>
+          <input type="checkbox" name="" id="numbers" checked>
+        </li>
+        <li>
+          <label for="symbols">Include Symbols</label>
+          <input type="checkbox" name="" id="symbols" checked>
+        </li>
+       </ul>
+
+      <!-- genBtn -->
+      <input type="button" class="p-2 cursor-pointer border w-full md:w-[200px] shadow shadow-pink-900 bg-purple-700 text-amber-50 font-bold rounded-[7px] my-4" id="genPass" value="🔑 Generate Password" title="Generate Password">
+
+      <!-- strength -->
+      <div>
+        <div class="flex justify-between w-[98%] border-t text-[0.9rem]">
+          <span>Password strength:</span>
+          <span class="font-bold animate-pulse" id="strengthLevel"></span>
+        </div>
+        <div class="w-full bg-blue-100 rounded-full h-3">
+          <!-- strngth bar -->
+          <div class="h-full rounded-full" id="progress" style="width: 0;"></div>
+        </div>
+      </div>
+    </div>
+  <footer class=" bg-gray-800 w-full text-gray-200 font-semibold text-center text-[.9rem] mt-4 max-sm:pb-2.5 pt-2.5">
+    <p>&copy; Password Generator</p>
+    <i class="underline py-1"><a href="http://sparky-010.github.io/dev" target="_blank" rel="noopener noreferrer" style="letter-spacing: 3px;">Nk.dev profile.</a></i>
+    <h5><i>@ NK.dev... 2026</i></h5>
+  </footer>
+  <script>
+    const msg = document.getElementById('msg')
+    const upperCase = document.getElementById('upperCase')
+    const lowerCase = document.getElementById('lowerCase')
+    const numbers = document.getElementById('numbers')
+    const symbols = document.getElementById('symbols')
+    const pswd = document.getElementById('pswd')
+    const pswLegnth = document.getElementById('psw-Legnth')
+    const pswdCopy = document.getElementById('copy-psw')
+    const strengthLevel = document.getElementById('strengthLevel')
+    const progress = document.getElementById('progress')
+    const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', abc = 'abcdefghijklmnopqrstuvwxyz',  numb = '1234567890', xters = '~!@#$%^&*()_+{}[],<.>/?'
+    let pswArr = []
+    let cntChecked = []
+
+    // password length value
+    pswLegnth.addEventListener('change', ()=>document.getElementById('length-Value').innerText = pswLegnth.value)
+
+    // generate Uppercase
+    function genUpper() {
+      if (upperCase.checked) {
+        for (let index = 0; index < pswLegnth.value; index++) {
+          const uppEl = ABC[Math.floor(Math.random() * ABC.length)]
+          pswArr.push(uppEl)
+        }
+        cntChecked.push('upper')
+        return
+      }
+      return
+    }
+    // generate lowercase
+    function genLower() {
+      if (lowerCase.checked) {
+        for (let index = 0; index < pswLegnth.value; index++) {
+          const lowEl = abc[Math.floor(Math.random() * abc.length)]
+          pswArr.push(lowEl)
+        }
+        cntChecked.push('lower')
+        return
+      }
+      return
+    }
+    // generate numbers
+    function genNumbers() {
+      if (numbers.checked) {
+        for (let index = 0; index < pswLegnth.value; index++) {
+          const numEl = numb[Math.floor(Math.random() * numb.length)]
+          pswArr.push(numEl)
+        }
+        cntChecked.push('num')
+        return
+      }
+      return
+    }
+    // generate symbols
+    function genSymbols() {
+      if (symbols.checked) {
+        for (let index = 0; index < pswLegnth.value; index++) {
+          const symEl = xters[Math.floor(Math.random() * xters.length)]
+          pswArr.push(symEl)
+        }
+        cntChecked.push('sym')
+        return
+      }
+      return
+    }
+    // gen password
+    function geneatePassword() {
+      if(!upperCase.checked && !lowerCase.checked && !numbers.checked && !symbols.checked) {
+         msg.innerHTML = 'You <b>MUST</b> select <b>one character type!</b>'
+         msg.style.color = '#fb2c36'
+         upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = '1px solid #fb2c36'
+         setTimeout(() => {
+          msg.innerHTML = '.'; msg.style.color = 'transparent'
+          upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = ''
+         }, 3000);
+         return
+      } else{
+        genUpper(); genLower(); genNumbers(); genSymbols();
+        strengthBar()
+        displayPsw()
+      }
+    }
+    window.addEventListener('DOMContentLoaded', geneatePassword)
+    document.getElementById('genPass').onclick = geneatePassword
+    
+    // length bar
+    function strengthBar() {
+      let strengthLv = ((parseInt(pswLegnth.value) + (parseInt(cntChecked.length) * 6))* 100 / 48) 
+      progress.style.width = `${strengthLv}%`
+      pswStrengthLevel(strengthLv)
+    }
+    // strengthLevel
+    function pswStrengthLevel(level) {
+      if (level <= 45) {
+        strengthLevel.innerText = 'Weak'
+        progress.style.background = '#fb2c36'
+      } else if (level > 45 && level < 70) {
+        strengthLevel.innerText = 'Medium'
+        progress.style.background = 'Orange'
+      } else {
+        strengthLevel.innerText = 'Strong'
+        progress.style.background = 'Green'
+      }
+    }
+
+    // display psw
+    function displayPsw() {
+      pswd.value = ''
+      for (let i = 0; i < pswLegnth.value; i++) {
+        pswd.value += pswArr[Math.floor(Math.random() * pswArr.length)]
+      }
+      pswArr = []
+      cntChecked = []
+      return
+    }
+    // copy password
+    function copyPsw() {
+      navigator.clipboard.writeText(pswd.value);
+      msg.innerHTML = 'Password Copied to clipboard.'
+      msg.style.color = '#05df72'
+      pswdCopy.innerText = '✅'
+      setTimeout(() => {
+        msg.innerHTML = '.'; msg.style.color = 'transparent'
+        pswdCopy.innerText = '📋'
+      }, 1000);
+    }
+    pswdCopy.onclick = copyPsw
+  </script>
+</body>
+</html>
