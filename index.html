@@ -31,7 +31,8 @@
       <!-- pasword value -->
       <div class="flex justify-between shadow shadow-black mb-5 rounded-[10px]">
         <input type="text" class="px-4 py-1 rounded-[7px] w-[70%]" id="pswd" value="" title="Generated Password" disabled>
-        <button type="button" class="shadow rounded-[7px] px-2 cursor-pointer bg-gray-200 hover:bg-green-100" id="copy-psw" title="copy Password">📋</button><!--copy password-->
+		<!--copy password-->
+        <button type="button" class="shadow rounded-[7px] px-2 cursor-pointer text-2xl bg-gray-400 hover:bg-green-300" id="copy-psw" title="copy Password">📋</button>
       </div>
 
       <!-- options -->
@@ -98,6 +99,16 @@
 
     // password length value
     pswLegnth.addEventListener('change', ()=>document.getElementById('length-Value').innerText = pswLegnth.value)
+	// clear msg
+	let t = 0
+	function resetMsg() {
+		t = 0
+		t = 3000
+		setTimeout(() => {
+          msg.innerHTML = '.'; msg.style.color = 'transparent'
+          upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = ''
+		}, t);
+	}
 
     // generate Uppercase
     function genUpper() {
@@ -150,14 +161,11 @@
     // gen password
     function geneatePassword() {
       if(!upperCase.checked && !lowerCase.checked && !numbers.checked && !symbols.checked) {
-         msg.innerHTML = 'You <b>MUST</b> select <b>one character type!</b>'
-         msg.style.color = '#fb2c36'
-         upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = '1px solid #fb2c36'
-         setTimeout(() => {
-          msg.innerHTML = '.'; msg.style.color = 'transparent'
-          upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = ''
-         }, 3000);
-         return
+		msg.innerHTML = 'Select atleast <b>one character type!</b>'
+		msg.style.color = '#fb2c36'
+		upperCase.style.border = lowerCase.style.border = numbers.style.border = symbols.style.border = '1px solid #fb2c36'
+		resetMsg()
+		return
       } else{
         genUpper(); genLower(); genNumbers(); genSymbols();
         strengthBar()
@@ -203,13 +211,10 @@
     // copy password
     function copyPsw() {
       navigator.clipboard.writeText(pswd.value);
-      msg.innerHTML = 'Password Copied to clipboard.'
-      msg.style.color = '#05df72'
-      pswdCopy.innerText = '✅'
-      setTimeout(() => {
-        msg.innerHTML = '.'; msg.style.color = 'transparent'
-        pswdCopy.innerText = '📋'
-      }, 1000);
+      msg.innerHTML = 'Password Copied to clipboard.'; msg.style.color = '#05df72';
+	  pswdCopy.innerText = '✅'
+      resetMsg()
+	  setTimeout(()=>pswdCopy.innerText = '📋', 3000)
     }
     pswdCopy.onclick = copyPsw
   </script>
